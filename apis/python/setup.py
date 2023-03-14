@@ -247,6 +247,7 @@ setuptools.setup(
         "somacore==1.0.0",
         "tiledb==0.21.*",
         "typing-extensions",  # Note "-" even though `import typing_extensions`
+        "pybind11",
     ],
     extras_require={
         "dev": [
