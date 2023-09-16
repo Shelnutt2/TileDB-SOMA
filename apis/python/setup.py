@@ -151,7 +151,7 @@ def find_or_build_package_data(setuptools_cmd):
         # cause that cache to fall out of sync.
         #
         # See `.github/workflows/python-ci-single.yml` for configuration.
-        subprocess.run(["./bld"], cwd=scripts_dir)
+        subprocess.run(["./bld", "--build", "Debug"], cwd=scripts_dir)
         lib_dir = libtiledbsoma_exists()
         assert lib_dir, "error when building libtiledbsoma from source"
 
