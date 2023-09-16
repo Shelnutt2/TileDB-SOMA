@@ -135,6 +135,7 @@ else()
             -DCMAKE_C_COMPILER=${CMAKE_C_COMPILER}
             -DCMAKE_TOOLCHAIN_FILE=${CMAKE_TOOLCHAIN_FILE}
             -DCMAKE_POSITION_INDEPENDENT_CODE=ON
+            -DSANITIZER=address
           UPDATE_COMMAND ""
           INSTALL_COMMAND
             ${CMAKE_COMMAND} --build . --target install-tiledb

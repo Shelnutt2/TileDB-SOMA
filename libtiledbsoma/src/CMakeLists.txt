@@ -87,6 +87,7 @@ target_include_directories(TILEDB_SOMA_OBJECTS
 # ###########################################################
 # Compile options/definitions
 # ###########################################################
+SET(SANITIZER address FORCE CACHE ON "")
 if(SANITIZER)
   string(TOLOWER "${CMAKE_BUILD_TYPE}" CMAKE_BUILD_TYPE_LOWER)
 
