@@ -110,9 +110,19 @@ jobs:
         rm -rf soco
         tar zxf soco.tgz
         cd ..
+    
+    - name: Run libtiledbsoma unit tests - direct
+      run: lldb -b -o run -k 'thread backtrace all' -- /Users/runner/work/TileDB-SOMA/TileDB-SOMA/build/libtiledbsoma/test/unit_soma
+      if: inputs.is_mac
+
 
     - name: Run libtiledbsoma unit tests
       run: ctest --output-on-failure --test-dir build/libtiledbsoma -C Release --verbose
+      if: inputs.is_mac == false
+    
+    - name: Run libtiledbsoma unit tests
+      run: lldb -b -o run -k 'thread backtrace all' -- ctest --output-on-failure --test-dir build/libtiledbsoma -C Release --verbose
+      if: inputs.is_mac
 
     - name: Run pytests for C++
       # Setting PYTHONPATH ensures the tests load the in-tree source code unde apis/python/src
