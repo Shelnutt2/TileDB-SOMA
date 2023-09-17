@@ -88,6 +88,9 @@ jobs:
           dist
         key: libtiledbsoma-build-dist-${{ inputs.os }}-${{ inputs.python_version }}-${{ hashFiles('libtiledbsoma', 'scripts/bld') }}
 
+    #- name: Test
+   #   run: find / -iname "libclang_rt.asan*"
+
     - name: Install testing prereqs
       run: python -m pip -v install -U pip pytest-cov 'typeguard<3.0' types-setuptools
 
@@ -112,16 +115,16 @@ jobs:
         cd ..
     
     - name: Run libtiledbsoma unit tests - direct
-      run: lldb -b -o run -k 'thread backtrace all' -- /Users/runner/work/TileDB-SOMA/TileDB-SOMA/build/libtiledbsoma/test/unit_soma
+      run: LD_PRELOAD=/System/Volumes/Data/Library/Developer/CommandLineTools/usr/lib/clang/14.0.0/lib/darwin/libclang_rt.asan_osx_dynamic.dylib lldb -b -o run -k 'thread backtrace all' -- /Users/runner/work/TileDB-SOMA/TileDB-SOMA/build/libtiledbsoma/test/unit_soma
       if: inputs.is_mac
 
 
     - name: Run libtiledbsoma unit tests
-      run: ctest --output-on-failure --test-dir build/libtiledbsoma -C Release --verbose
+      run: LD_PRELOAD=/usr/lib/gcc/x86_64-linux-gnu/12/libasan.so ctest --output-on-failure --test-dir build/libtiledbsoma -C Release --verbose
       if: inputs.is_mac == false
     
     - name: Run libtiledbsoma unit tests
-      run: lldb -b -o run -k 'thread backtrace all' -- ctest --output-on-failure --test-dir build/libtiledbsoma -C Release --verbose
+      run: LD_PRELOAD=/System/Volumes/Data/Library/Developer/CommandLineTools/usr/lib/clang/14.0.0/lib/darwin/libclang_rt.asan_osx_dynamic.dylib lldb -b -o run -k 'thread backtrace all' -- ctest --output-on-failure --test-dir build/libtiledbsoma -C Release --verbose
       if: inputs.is_mac
 
     - name: Run pytests for C++
