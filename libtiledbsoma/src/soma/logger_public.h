@@ -36,7 +36,6 @@
 #ifndef TILEDB_LOGGER_PUBLIC_H
 #define TILEDB_LOGGER_PUBLIC_H
 
-
 #include <stdexcept>  // for windows: error C2039: 'runtime_error': is not a member of 'std'
 
 namespace tiledbsoma {
