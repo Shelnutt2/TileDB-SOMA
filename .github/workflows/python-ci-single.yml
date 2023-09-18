@@ -101,7 +101,12 @@ jobs:
         CXX: ${{ inputs.cxx }}
 
     - name: Show package versions
-      run: python scripts/show-versions.py
+      run: LD_PRELOAD=/usr/lib/gcc/x86_64-linux-gnu/12/libasan.so python scripts/show-versions.py
+      if: inputs.is_mac == false
+
+    - name: Show package versions
+      run: LD_PRELOAD=/System/Volumes/Data/Library/Developer/CommandLineTools/usr/lib/clang/14.0.0/lib/darwin/libclang_rt.asan_osx_dynamic.dylib python scripts/show-versions.py
+      if: inputs.is_mac
 
     - name: Show XCode version
       run: clang --version
