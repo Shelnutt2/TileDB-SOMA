@@ -1969,12 +1969,12 @@ def add_matrix_to_collection(
     ingestion_params = IngestionParams(ingest_mode, None)
     _check_for_deprecated_modes(ingest_mode)
 
-    # For local disk and S3, creation and storage URIs are identical.  For
+    # For local disk and object, creation and storage URIs are identical.  For
     # cloud, creation URIs look like tiledb://namespace/s3://bucket/path/to/obj
     # whereas storage URIs (for the same object) look like
     # tiledb://namespace/uuid.  When the caller passes a creation URI (which
     # they must) via exp.uri, we need to follow that.
-    extend_creation_uri = exp.uri.startswith("tiledb://")
+    extend_creation_uri = (exp.uri.startswith("tiledb://") and (exp.uri.count("://") > 1))
 
     with exp.ms[measurement_name] as meas:
         if extend_creation_uri:

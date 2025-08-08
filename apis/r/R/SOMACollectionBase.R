@@ -169,7 +169,7 @@ SOMACollectionBase <- R6::R6Class(
         "'name' must be a single, non-empty string" = is.null(name) ||
           (is_scalar_character(name) && nzchar(name))
       )
-      relative <- relative %||% !startsWith(object$uri, "tiledb://")
+      relative <- relative %||% !startsWith(object$uri, "tiledb://") %||% (startsWith(object$uri, "tiledb://") && length(strsplit(object$uri, "://", fixed = TRUE)[[1]]) == 1L)
       if (!(isTRUE(relative) || isFALSE(relative))) {
         stop("'relative' must be TRUE or FALSE", call. = FALSE)
       }

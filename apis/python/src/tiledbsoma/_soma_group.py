@@ -213,7 +213,7 @@ class SOMAGroup(SOMAObject[_tdb_handles.SOMAGroupWrapper[Any]], Generic[Collecti
                 full_uri=maybe_relative_uri,
                 relative=False,
             )
-        if not self.uri.startswith("tiledb://"):
+        if not self.uri.startswith("tiledb://") or (self.uri.count("://") == 1 and self.uri.startswith("tiledb://")):
             # We don't need to post-process anything.
             return _ChildURI(
                 add_uri=maybe_relative_uri,
@@ -289,7 +289,7 @@ class SOMAGroup(SOMAObject[_tdb_handles.SOMAGroupWrapper[Any]], Generic[Collecti
         # The TileDB-Py API supports use_relative_uri in [True, False].
         # Map from the former to the latter -- and also honor our somacore contract for None --
         # using the following rule.
-        if use_relative_uri is None and value.uri.startswith("tiledb://"):
+        if use_relative_uri is None and (value.uri.startswith("tiledb://") and self.uri.count("://") > 1):
             # TileDB-Cloud does not use relative URIs, ever.
             use_relative_uri = False
 
